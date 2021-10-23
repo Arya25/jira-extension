@@ -99,7 +99,7 @@ isBoardReady(() => {
       const firstShuffledMember = shuffledMembers[0];
 
       const headerWrapper = pool.querySelector('#ghx-swimlane-header-stalker');
-      headerWrapper.replaceChild(getMemberHeader(firstShuffledMember).cloneNode(), getMemberHeader(headerWrapper));
+      headerWrapper.replaceChild(getMemberHeader(firstShuffledMember).cloneNode(true), getMemberHeader(headerWrapper));
       mark(firstShuffledMember);
     }
     shuffleJiraMembers();
