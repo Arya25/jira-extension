@@ -1,6 +1,3 @@
-// TODO: remove set timeout
-console.log('running');
-
 // Refers to the existing action buttons to create a shuffle button
 function getShuffleButton(referenceLi) {
   const li = referenceLi.cloneNode(true);
@@ -21,7 +18,36 @@ function appendShuffleButton() {
   return shuffleLi.querySelector('button');
 }
 
-setTimeout(() => {
+// Since the board is client rendered it can take a while even after
+// DOMContentLoaded event for the board dom elements to be available to query
+// The function polls for when the board is ready. Cancels execution if not ready in 7 seconds
+const isBoardReady = (cb) => {
+  const isReady = () => !!document.querySelector('.ghx-backlog-search-container');
+  if (isReady()) {
+    cb();
+    return;
+  }
+
+  let count = 0;
+  let poll;
+  poll = setInterval(() => {
+    // Stop after 7 tries
+    if (count === 7) {
+      clearInterval(poll);
+      return;
+    }
+
+    if (isReady()) {
+      cb();
+      clearInterval(poll);
+      return;
+    }
+
+    count++;
+  }, 1000)
+};
+
+isBoardReady(() => {
   const shuffleButton = appendShuffleButton();
   shuffleButton.addEventListener("click", () => {
     function shuffleJiraMembers() {
@@ -78,4 +104,4 @@ setTimeout(() => {
     }
     shuffleJiraMembers();
   });
-}, 5000);
+});
