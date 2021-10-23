@@ -1,27 +1,17 @@
 {
   "name": "JIRA Board Shuffle",
-  "description": "Standups",
+  "description": "Shuffles your JIRA board for daily standups, so you know who's going next!",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "scripting"],
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://*.atlassian.net/jira/*/boards/*"],
       "js": ["main.js"]
     }
   ],
-  "action": {
-    "default_icon": {
-      "16": "/images/get_started16.png",
-      "32": "/images/get_started32.png",
-      "48": "/images/get_started48.png",
-      "128": "/images/get_started128.png"
-    },
-    "icons": {
-      "16": "/images/get_started16.png",
-      "32": "/images/get_started32.png",
-      "48": "/images/get_started48.png",
-      "128": "/images/get_started128.png"
-    }
+  "icons": {
+    "16": "/images/shuffle16.png",
+    "48": "/images/shuffle48.png",
+    "128": "/images/shuffle128.png"
   }
 }
