@@ -1,17 +1,29 @@
 // TODO: remove set timeout
+console.log('running');
+
+// Refers to the existing action buttons to create a shuffle button
+function getShuffleButton(referenceLi) {
+  const li = referenceLi.cloneNode(true);
+  var button = li.querySelector("button");
+  button.querySelector('span').innerHTML = "Shuffle";
+
+  return li;
+}
+
+// Append the shuffle button within the existing actions on the board
+// like 'Recently Updated', 'My issues'
+function appendShuffleButton() {
+  const actions = document.querySelector('.ghx-backlog-search-container').parentNode.lastChild;
+  const actionsList = actions.querySelector('ul');
+  const shuffleLi = getShuffleButton(actionsList.querySelector('li'));
+  actionsList.appendChild(shuffleLi);
+
+  return shuffleLi.querySelector('button');
+}
+
 setTimeout(() => {
-  alert('yo');
-  const newCardDiv = document.querySelector("#ghx-quick-filters");
-  var shuffleButton = document.createElement("button");
-  console.log('here', newCardDiv, shuffleButton);
-
-  shuffleButton.id = "shuffle-btn";
-  shuffleButton.textContent = "SHUFFLE";
-  newCardDiv.append(shuffleButton);
-
-  let shuffleBtnEl = document.getElementById("shuffle-btn");
-
-  shuffleBtnEl.addEventListener("click", () => {
+  const shuffleButton = appendShuffleButton();
+  shuffleButton.addEventListener("click", () => {
     function shuffleJiraMembers() {
       const printMember = el => el.outerText.split(' ')[0];
       const printMembers = (arr) => arr.map(printMember);
