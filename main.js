@@ -1,30 +1,28 @@
 try {
-  console.log('script running');
   // Refers to the existing action buttons to create a shuffle button
-  function getShuffleButton(referenceLi) {
-    const li = referenceLi.cloneNode(true);
-    var button = li.querySelector("button");
-    button.querySelector('span').innerHTML = "Shuffle";
+  function getShuffleButton(referencedButton) {
+    const button = referencedButton.cloneNode(true);
+    button.textContent = "Shuffle all swimlanes";
+    button.style.marginLeft = '10px';
 
-    return li;
+    return button;
   }
 
   // Append the shuffle button within the existing actions on the board
   // like 'Recently Updated', 'My issues'
   function appendShuffleButton() {
-    const actions = document.querySelector('.ghx-backlog-search-container').parentNode.lastChild;
-    const actionsList = actions.querySelector('ul');
-    const shuffleLi = getShuffleButton(actionsList.querySelector('li'));
-    actionsList.appendChild(shuffleLi);
+    const actionsList = document.querySelector('#ghx-controls-buttons');
+    const button = getShuffleButton(actionsList.firstChild);
+    actionsList.appendChild(button);
 
-    return shuffleLi.querySelector('button');
+    return button;
   }
 
   // Since the board is client rendered it can take a while even after
   // DOMContentLoaded event for the board dom elements to be available to query
   // The function polls for when the board is ready. Cancels execution if not ready in 7 seconds
   const isBoardReady = (cb) => {
-    const isReady = () => !!document.querySelector('.ghx-backlog-search-container');
+    const isReady = () => !!document.querySelector('#ghx-controls-buttons')?.children.length;
     if (isReady()) {
       cb();
       return;
@@ -67,14 +65,11 @@ try {
           while (m > 0) {
             // Pick a remaining element…
             const i = Math.floor(Math.random() * m);
-            console.log(i, m, 'lalaji')
 
             // And swap it with the current element.
             const temp = document.createElement('temp');
 
             parent = members[m].parentNode;
-            console.log(printMembers(Array.from(parent.querySelectorAll('.ghx-swimlane'))));
-            console.log(`picked ${printMember(members[i])}, replaced with: ${printMember(members[m])}`);
             // a -> temp
             parent.replaceChild(temp, members[m]);
             // b -> a
